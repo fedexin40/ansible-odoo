@@ -8,6 +8,16 @@
   with_items: "{{ odoo_debian_packages }}"
   tags:
     - odoo_packages
+  when: ansible_distribution != 'Archlinux'
+
+- name: Install Odoo dependencies in Archlinux
+  yay:
+        name={{ item }}
+        update_cache={{ odoo_pacman_update_cache }}
+  with_items: "{{ odoo_arch_packages }}"
+  tags:
+    - odoo_packages
+  when: ansible_distribution == 'Archlinux'
 
 - name: Install Odoo dependencies (PyPi)
   pip: name={{ item }}

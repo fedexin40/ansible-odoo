@@ -8,6 +8,16 @@
   with_items: "{{ odoo_required_tools }}"
   tags:
     - odoo_required_tools
+  when: ansible_distribution != 'Archlinux'
+
+- name: Install required tools in Archlinux
+  yay: 
+        name={{ item }}
+        update_cache={{ odoo_pacman_update_cache }}
+  with_items: "{{ odoo_required_tools }}"
+  tags:
+    - odoo_required_tools
+  when: ansible_distribution == 'Archlinux'
 
 - name: Add Odoo system user
   user:
